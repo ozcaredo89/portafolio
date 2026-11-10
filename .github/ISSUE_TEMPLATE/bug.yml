@@ -1,0 +1,17 @@
+name: Bug
+description: Something is not working
+labels: ["type:bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Steps, URL, device (phone/PC), screenshot or error text.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should happen
+    validations:
+      required: true
