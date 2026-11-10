@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { ui } from '../i18n/ui';
+---
+
+<Base lang="es">
+  <main class="wrap section notfound">
+    <h1>{ui.es.notFoundTitle}</h1>
+    <p class="prose"><a class="btn primary" href="/">{ui.es.notFoundBack}</a></p>
+    <p class="prose muted">{ui.en.notFoundTitle} · <a href="/en/">{ui.en.notFoundBack}</a></p>
+  </main>
+</Base>

@@ -1,0 +1,45 @@
+---
+import '../styles/global.css';
+import { ui, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Path of this page in the other language, for hreflang. Omit on 404. */
+  alternates?: { es: string; en: string };
+}
+
+const { lang, alternates } = Astro.props;
+const t = ui[lang];
+const site = Astro.site ?? new URL('https://portafolio.allatyou.com');
+const canonical = new URL(Astro.url.pathname, site);
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t.siteTitle}</title>
+    <meta name="description" content={t.siteDescription} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical.href} />
+    {
+      alternates && (
+        <>
+          <link rel="alternate" hreflang="es" href={new URL(alternates.es, site).href} />
+          <link rel="alternate" hreflang="en" href={new URL(alternates.en, site).href} />
+          <link rel="alternate" hreflang="x-default" href={new URL(alternates.es, site).href} />
+        </>
+      )
+    }
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={t.siteTitle} />
+    <meta property="og:description" content={t.siteDescription} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_CO' : 'en_US'} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

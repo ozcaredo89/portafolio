@@ -1,0 +1,168 @@
+---
+import { ui, type Lang } from '../i18n/ui';
+import { profile } from '../data/profile';
+import { projects } from '../data/projects';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+
+const featured = projects.filter((p) => p.featured);
+const others = projects.filter((p) => !p.featured);
+const year = new Date().getFullYear();
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={lang === 'es' ? '/' : '/en/'} aria-label={profile.name}>OH</a>
+    <nav aria-label="Principal">
+      <a href="#about">{t.nav.about}</a>
+      <a href="#projects">{t.nav.projects}</a>
+      <a href="#skills">{t.nav.skills}</a>
+      <a href="#contact">{t.nav.contact}</a>
+      <a class="lang" href={t.switchHref} hreflang={lang === 'es' ? 'en' : 'es'}>{t.switchLabel}</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="eyebrow">{profile.headline[lang]}</p>
+    <h1>{profile.name}</h1>
+    <p class="lead">{profile.intro[lang]}</p>
+    <div class="actions">
+      <a class="btn primary" href="#projects">{t.viewProjects}</a>
+      <a class="btn" href="#contact">{t.contactMe}</a>
+    </div>
+  </section>
+
+  <section id="about" class="wrap section">
+    <h2>{t.aboutTitle}</h2>
+    {profile.about[lang].map((p) => <p class="prose">{p}</p>)}
+    <h3>{t.workflowTitle}</h3>
+    <ol class="flow">
+      {profile.workflow[lang].map((step) => <li>{step}</li>)}
+    </ol>
+  </section>
+
+  <section id="projects" class="wrap section">
+    <h2>{t.projectsTitle}</h2>
+    <p class="prose muted">{t.projectsLead}</p>
+
+    <h3>{t.featured}</h3>
+    <div class="grid">
+      {
+        featured.map((p) => (
+          <article class="card">
+            <div class="card-top">
+              <h4>{p.name}</h4>
+              <span class={`badge ${p.visibility}`}>
+                {p.visibility === 'private' ? t.privateBadge : t.publicBadge}
+              </span>
+            </div>
+            <p class="tagline">{p.tagline[lang]}</p>
+            <p>{p.description[lang]}</p>
+            {p.highlights[lang].length > 0 && (
+              <ul class="highlights">
+                {p.highlights[lang].map((h) => (
+                  <li>{h}</li>
+                ))}
+              </ul>
+            )}
+            <ul class="chips" aria-label="Stack">
+              {p.stack.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ul>
+            <div class="links">
+              {p.live && (
+                <a href={p.live} rel="noopener" target="_blank">
+                  {t.demo} ↗
+                </a>
+              )}
+              {p.visibility === 'public' && p.repo && (
+                <a href={p.repo} rel="noopener" target="_blank">
+                  {t.code} ↗
+                </a>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <h3>{t.others}</h3>
+    <div class="grid compact">
+      {
+        others.map((p) => (
+          <article class="card">
+            <div class="card-top">
+              <h4>{p.name}</h4>
+              <span class={`badge ${p.visibility}`}>
+                {p.visibility === 'private' ? t.privateBadge : t.publicBadge}
+              </span>
+            </div>
+            <p class="tagline">{p.tagline[lang]}</p>
+            <p>{p.description[lang]}</p>
+            <ul class="chips" aria-label="Stack">
+              {p.stack.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ul>
+            <div class="links">
+              {p.live && (
+                <a href={p.live} rel="noopener" target="_blank">
+                  {t.demo} ↗
+                </a>
+              )}
+              {p.visibility === 'public' && p.repo && (
+                <a href={p.repo} rel="noopener" target="_blank">
+                  {t.code} ↗
+                </a>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="skills" class="wrap section">
+    <h2>{t.skillsTitle}</h2>
+    <dl class="skills">
+      {
+        profile.skills.map((g) => (
+          <div>
+            <dt>{g.group[lang]}</dt>
+            <dd>
+              <ul class="chips">
+                {g.items.map((i) => (
+                  <li>{i}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section id="contact" class="wrap section">
+    <h2>{t.contactTitle}</h2>
+    <p class="prose">{t.contactLead}</p>
+    <ul class="contact">
+      <li><a href={profile.github} rel="noopener me" target="_blank">GitHub ↗</a></li>
+      {profile.linkedin && <li><a href={profile.linkedin} rel="noopener me" target="_blank">LinkedIn ↗</a></li>}
+      {profile.email && <li><a href={`mailto:${profile.email}`}>{t.email}: {profile.email}</a></li>}
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© {year} {profile.name}. {t.footer}</p>
+  </div>
+</footer>
