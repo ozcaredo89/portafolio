@@ -25,7 +25,8 @@ Show my projects in one public place I can link from LinkedIn, free to host, on 
 - [x] `npm run lint && npm run typecheck && npm run build` pass
 - [ ] PR runs CI; merge to `main` deploys to Pages
 - [ ] Custom domain configured (`public/CNAME`) and HTTPS enforced
-- [x] Works at 375 px width, light and dark scheme
+- [x] Works at 375 px width (no horizontal overflow)
+- [ ] Dark scheme reviewed visually (styles exist, not yet eyeballed)
 
 ## Design notes
 - Data / migration: none.
