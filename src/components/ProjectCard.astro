@@ -1,0 +1,116 @@
+---
+import type { Project } from '../data/projects';
+import type { Lang } from '../i18n/ui';
+import { ui } from '../i18n/ui';
+import Icon from './Icon.astro';
+import ProjectVisual from './ProjectVisual.astro';
+
+interface Props {
+  project: Project;
+  lang: Lang;
+  index: number;
+  compact?: boolean;
+}
+
+const { project: p, lang, index, compact = false } = Astro.props;
+const t = ui[lang];
+const isPrivate = p.visibility === 'private';
+---
+
+<article class:list={['card reveal', { compact }]} style={`--a:${p.accent}`}>
+  <ProjectVisual motif={p.motif} accent={p.accent} compact={compact} />
+  <div class="body">
+    <div class="meta">
+      <span class="num">{String(index).padStart(2, '0')}</span>
+      <span class:list={['badge', p.visibility]}>
+        <Icon name={isPrivate ? 'lock' : 'code'} size={12} />
+        {isPrivate ? t.privateBadge : t.publicBadge}
+      </span>
+    </div>
+    <h3>{p.name}</h3>
+    <p class="tagline">{p.tagline[lang]}</p>
+    <p class="desc">{p.description[lang]}</p>
+    {
+      !compact && p.highlights[lang].length > 0 && (
+        <ul class="highlights">
+          {p.highlights[lang].map((h) => (
+            <li>
+              <Icon name="check" size={14} />
+              <span>{h}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <ul class="chips" aria-label="Stack">
+      {p.stack.map((s) => <li>{s}</li>)}
+    </ul>
+    {
+      (p.live || (p.visibility === 'public' && p.repo)) && (
+        <div class="links">
+          {p.live && (
+            <a href={p.live} rel="noopener" target="_blank">
+              {t.demo} <Icon name="arrow-up-right" size={15} />
+            </a>
+          )}
+          {p.visibility === 'public' && p.repo && (
+            <a href={p.repo} rel="noopener" target="_blank">
+              <Icon name="github" size={15} /> {t.code}
+            </a>
+          )}
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 0.9rem 0.9rem 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    transition:
+      transform 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--a) 55%, var(--border));
+    box-shadow: 0 24px 60px -28px color-mix(in srgb, var(--a) 60%, transparent);
+  }
+  .body { display: flex; flex-direction: column; gap: 0.55rem; padding: 0 0.6rem; flex: 1; }
+  .meta { display: flex; align-items: center; justify-content: space-between; }
+  .num { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); letter-spacing: 0.08em; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px;
+    color: var(--muted); border: 1px solid var(--border);
+  }
+  .badge.public { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+  h3 { margin: 0.2rem 0 0; font-size: 1.35rem; letter-spacing: -0.02em; line-height: 1.2; }
+  .compact h3 { font-size: 1.15rem; }
+  .tagline { margin: 0; color: var(--text); font-weight: 500; }
+  .desc { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  .highlights { list-style: none; margin: 0.3rem 0 0; padding: 0; display: grid; gap: 0.45rem; font-size: 0.9rem; color: var(--muted); }
+  .highlights li { display: flex; gap: 0.55rem; align-items: flex-start; }
+  .highlights :global(svg) { flex: none; margin-top: 0.2rem; color: var(--a); }
+  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 0; padding: 0; }
+  .chips li {
+    font-family: var(--mono); font-size: 0.74rem; padding: 0.2rem 0.55rem; border-radius: 8px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--muted);
+  }
+  .links { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; padding-top: 0.9rem; }
+  .links a {
+    display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none;
+    font-weight: 600; font-size: 0.9rem; color: var(--text);
+    padding: 0.45rem 0.85rem; border-radius: 999px; border: 1px solid var(--border-strong);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .links a:hover { background: var(--surface-2); border-color: color-mix(in srgb, var(--a) 60%, var(--border-strong)); }
+</style>

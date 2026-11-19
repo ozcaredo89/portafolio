@@ -1,0 +1,161 @@
+---
+// Abstract "mini product" art per project. Pure SVG, themed through CSS variables,
+// so it works in light/dark and never ships client data or screenshots.
+interface Props {
+  motif: 'chart' | 'list' | 'feed' | 'grid' | 'rings' | 'map' | 'terminal';
+  accent: string;
+  compact?: boolean;
+}
+const { motif, accent, compact = false } = Astro.props;
+const bars = [38, 62, 50, 84, 68, 102];
+const cells = Array.from({ length: 32 }, (_, i) => ({
+  x: 34 + (i % 8) * 32,
+  y: 22 + Math.floor(i / 8) * 28,
+  on: [1, 6, 10, 13, 18, 21, 27, 30].includes(i),
+}));
+---
+
+<div class:list={['visual', { compact }]} style={`--a:${accent}`} aria-hidden="true">
+  <svg viewBox="0 0 320 140" preserveAspectRatio={compact ? "xMidYMid meet" : "xMidYMid slice"} focusable="false">
+    <g class="chrome">
+      <circle cx="14" cy="13" r="3" />
+      <circle cx="25" cy="13" r="3" />
+      <circle cx="36" cy="13" r="3" />
+    </g>
+
+    {
+      motif === 'chart' && (
+        <g>
+          {bars.map((h, i) => (
+            <rect class={i === bars.length - 1 ? 'on' : 'soft'} x={44 + i * 38} y={126 - h} width="22" height={h} rx="5" />
+          ))}
+          <polyline class="line" points="55,96 93,76 131,84 169,52 207,62 245,30" />
+          <circle class="dot" cx="245" cy="30" r="5" />
+        </g>
+      )
+    }
+
+    {
+      motif === 'list' && (
+        <g>
+          {[40, 64, 88, 112].map((y, i) => (
+            <g>
+              <circle class={i === 0 ? 'on' : 'soft'} cx="34" cy={y} r="7" />
+              <rect class="bar" x="52" y={y - 4} width={[150, 120, 176, 100][i]} height="8" rx="4" />
+              <rect class={i === 0 ? 'on' : 'soft'} x="244" y={y - 8} width="46" height="16" rx="8" />
+            </g>
+          ))}
+        </g>
+      )
+    }
+
+    {
+      motif === 'feed' && (
+        <g>
+          <rect class="ghost" x="116" y="26" width="96" height="104" rx="16" transform="rotate(7 164 78)" />
+          <rect class="card" x="100" y="16" width="120" height="116" rx="16" />
+          <circle class="on" cx="122" cy="40" r="9" />
+          <rect class="bar" x="138" y="35" width="56" height="8" rx="4" />
+          <rect class="bar" x="114" y="62" width="92" height="8" rx="4" />
+          <rect class="bar" x="114" y="78" width="70" height="8" rx="4" />
+          <path class="spark" d="M196 104l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" />
+          <rect class="soft" x="114" y="102" width="52" height="18" rx="9" />
+        </g>
+      )
+    }
+
+    {
+      motif === 'grid' && (
+        <g>
+          {cells.map((c) => (
+            <rect class={c.on ? 'on' : 'soft'} x={c.x} y={c.y} width="24" height="20" rx="5" />
+          ))}
+        </g>
+      )
+    }
+
+    {
+      motif === 'rings' && (
+        <g transform="translate(160 78)">
+          <circle class="track" r="54" />
+          <circle class="arc a1" r="54" />
+          <circle class="track" r="38" />
+          <circle class="arc a2" r="38" />
+          <circle class="track" r="22" />
+          <circle class="arc a3" r="22" />
+        </g>
+      )
+    }
+
+    {
+      motif === 'map' && (
+        <g>
+          <path class="street" d="M20 100 L120 70 L190 96 L300 50" />
+          <path class="street" d="M70 20 L96 130" />
+          <path class="street" d="M210 18 L190 130" />
+          <path class="street" d="M30 54 L300 112" />
+          {[
+            [120, 70],
+            [190, 96],
+            [232, 70],
+          ].map(([x, y], i) => (
+            <g transform={`translate(${x} ${y})`}>
+              <circle class={i === 0 ? 'halo' : 'halo faint'} r="16" />
+              <circle class="on" r="6" />
+            </g>
+          ))}
+        </g>
+      )
+    }
+
+    {
+      motif === 'terminal' && (
+        <g>
+          {[36, 58, 80, 102].map((y, i) => (
+            <g>
+              <path class="on-stroke" d={`M30 ${y - 5} l6 5 -6 5`} />
+              <rect class={i === 3 ? 'on' : 'bar'} x="46" y={y - 4} width={[120, 168, 92, 60][i]} height="8" rx="4" />
+            </g>
+          ))}
+          <rect class="soft" x="214" y="28" width="76" height="76" rx="14" />
+          <path class="on-stroke" d="M252 46l18 6v14c0 12-8 20-18 24-10-4-18-12-18-24V52z" />
+        </g>
+      )
+    }
+  </svg>
+</div>
+
+<style>
+  .visual {
+    --ink: var(--text);
+    position: relative;
+    aspect-ratio: 16 / 7;
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      radial-gradient(80% 120% at 85% 0%, color-mix(in srgb, var(--a) 30%, transparent), transparent 70%),
+      radial-gradient(60% 90% at 0% 100%, color-mix(in srgb, var(--a) 14%, transparent), transparent 70%),
+      var(--surface-2);
+    border: 1px solid var(--border);
+  }
+  .visual.compact { aspect-ratio: 16 / 4.2; }
+  svg { display: block; width: 100%; height: 100%; }
+  .chrome circle { fill: var(--ink); opacity: 0.18; }
+  .on { fill: var(--a); }
+  .on-stroke { fill: none; stroke: var(--a); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .soft { fill: color-mix(in srgb, var(--a) 38%, transparent); }
+  .bar { fill: var(--ink); opacity: 0.16; }
+  .ghost { fill: color-mix(in srgb, var(--a) 22%, transparent); }
+  .card { fill: var(--surface); stroke: var(--border-strong); stroke-width: 1.5; }
+  .spark { fill: var(--a); }
+  .line { fill: none; stroke: var(--a); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .dot { fill: var(--surface); stroke: var(--a); stroke-width: 3; }
+  .track { fill: none; stroke: var(--ink); stroke-opacity: 0.1; stroke-width: 8; }
+  .arc { fill: none; stroke: var(--a); stroke-width: 8; stroke-linecap: round; transform: rotate(-90deg); }
+  .a1 { stroke-dasharray: 250 340; }
+  .a2 { stroke-dasharray: 170 239; }
+  .a3 { stroke-dasharray: 90 138; }
+  .street { fill: none; stroke: var(--ink); stroke-opacity: 0.14; stroke-width: 6; stroke-linecap: round; }
+  .halo { fill: color-mix(in srgb, var(--a) 30%, transparent); }
+  .halo.faint { fill: color-mix(in srgb, var(--a) 16%, transparent); }
+</style>

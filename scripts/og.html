@@ -1,0 +1,66 @@
+<!doctype html>
+<!-- Source of public/og.png (1200x630). Regenerate with: npm run og -->
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: 'Geist';
+        src: url('../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2');
+        font-weight: 100 900;
+      }
+      @font-face {
+        font-family: 'Geist Mono';
+        src: url('../node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2') format('woff2');
+        font-weight: 100 900;
+      }
+      * { box-sizing: border-box; margin: 0; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        font-family: 'Geist', system-ui, sans-serif;
+        color: #eceef4;
+        background:
+          radial-gradient(60% 70% at 15% 0%, rgba(139, 155, 255, 0.32), transparent 70%),
+          radial-gradient(45% 60% at 100% 10%, rgba(34, 211, 238, 0.22), transparent 70%),
+          #07080c;
+        position: relative;
+      }
+      body::before {
+        content: '';
+        position: absolute; inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+        background-size: 60px 60px;
+        -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, #000 20%, transparent 75%);
+      }
+      .wrap { position: relative; height: 100%; padding: 64px 72px; display: flex; flex-direction: column; justify-content: space-between; }
+      .top { display: flex; align-items: center; gap: 18px; }
+      .mark { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; font-weight: 800; font-size: 22px; color: #07080c; background: linear-gradient(135deg, #8b9bff, #22d3ee); }
+      .who b { display: block; font-size: 26px; font-weight: 650; letter-spacing: -0.01em; }
+      .who span { font-family: 'Geist Mono', monospace; font-size: 17px; color: #9aa3b6; }
+      h1 { font-size: 84px; line-height: 1.02; letter-spacing: -0.045em; font-weight: 650; max-width: 980px; }
+      h1 em { font-style: normal; background: linear-gradient(100deg, #8b9bff, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .bottom { display: flex; align-items: flex-end; justify-content: space-between; }
+      .stats { display: flex; gap: 44px; }
+      .stats div b { display: block; font-size: 44px; font-weight: 650; letter-spacing: -0.04em; line-height: 1; }
+      .stats div span { font-size: 18px; color: #9aa3b6; }
+      .url { font-family: 'Geist Mono', monospace; font-size: 22px; color: #9aa3b6; padding: 10px 18px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top">
+        <div class="mark">OH</div>
+        <div class="who"><b>Oscar Hincapié</b><span>Ingeniero de software full-stack · Colombia</span></div>
+      </div>
+      <h1>Convierto ideas en productos web que <em>funcionan en producción.</em></h1>
+      <div class="bottom">
+        <div class="stats">
+          <div><b>13+</b><span>años de experiencia</span></div>
+          <div><b>12</b><span>proyectos AllAtYou</span></div>
+          <div><b>580+</b><span>commits en 3 productos</span></div>
+        </div>
+        <div class="url">portafolio.allatyou.com</div>
+      </div>
+    </div>
+  </body>
+</html>
