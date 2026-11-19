@@ -25,6 +25,7 @@ No backend, no secrets, no analytics that need consent banners.
 - Projects are data, not markup: edit `src/data/projects.ts`; both languages live side by side in each entry.
 - **Never** link to private repositories or expose their code, secrets, customer names or internal URLs. Private projects are shown as case studies with only public demo links.
 - Each project needs an `accent` and a `motif` (decorative art in `ProjectVisual.astro`); accents are never used for text.
+- Experience comes from the owner's CV (`src/data/experience.ts`). Employers are published; **end-client names and the phone number are not**.
 - Do not invent metrics. Only claims that can be verified from the repos (commit counts, stack, live URLs).
 
 ## Map (where things are)
@@ -32,7 +33,8 @@ No backend, no secrets, no analytics that need consent banners.
 | :--- | :--- |
 | Proyectos (contenido ES/EN) | `src/data/projects.ts` |
 | Textos de la interfaz (ES/EN) | `src/i18n/ui.ts` |
-| Perfil, enlaces de contacto | `src/data/profile.ts` |
+| Perfil, enlaces de contacto, stack | `src/data/profile.ts` |
+| Experiencia, formación, certificaciones | `src/data/experience.ts`, `src/components/Experience.astro` |
 | Páginas | `src/pages/index.astro` (ES), `src/pages/en/index.astro` (EN) |
 | Layout, tema y SEO (JSON-LD, og) | `src/layouts/Base.astro` |
 | Secciones de la home | `src/components/Home.astro` |
