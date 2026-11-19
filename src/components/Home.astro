@@ -2,6 +2,8 @@
 import { ui, type Lang } from '../i18n/ui';
 import { profile } from '../data/profile';
 import { projects } from '../data/projects';
+import Icon from './Icon.astro';
+import ProjectCard from './ProjectCard.astro';
 
 interface Props {
   lang: Lang;
@@ -12,157 +14,158 @@ const t = ui[lang];
 
 const featured = projects.filter((p) => p.featured);
 const others = projects.filter((p) => !p.featured);
+const home = lang === 'es' ? '/' : '/en/';
 const year = new Date().getFullYear();
 ---
 
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href={lang === 'es' ? '/' : '/en/'} aria-label={profile.name}>OH</a>
-    <nav aria-label="Principal">
+    <a class="brand" href={home} aria-label={profile.name}>
+      <span class="mark">OH</span>
+      <span class="brand-name">{profile.shortName}</span>
+    </a>
+    <nav aria-label={t.navLabel}>
       <a href="#about">{t.nav.about}</a>
       <a href="#projects">{t.nav.projects}</a>
       <a href="#skills">{t.nav.skills}</a>
       <a href="#contact">{t.nav.contact}</a>
-      <a class="lang" href={t.switchHref} hreflang={lang === 'es' ? 'en' : 'es'}>{t.switchLabel}</a>
     </nav>
+    <div class="tools">
+      <a class="pill-btn" href={t.switchHref} hreflang={lang === 'es' ? 'en' : 'es'} aria-label={t.switchAria}>{t.switchLabel}</a>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label={t.themeToggle} title={t.themeToggle}>
+        <span class="to-light"><Icon name="sun" /></span>
+        <span class="to-dark"><Icon name="moon" /></span>
+      </button>
+    </div>
   </div>
 </header>
 
-<main>
-  <section class="hero wrap">
-    <p class="eyebrow">{profile.headline[lang]}</p>
-    <h1>{profile.name}</h1>
-    <p class="lead">{profile.intro[lang]}</p>
-    <div class="actions">
-      <a class="btn primary" href="#projects">{t.viewProjects}</a>
-      <a class="btn" href="#contact">{t.contactMe}</a>
+<main id="main">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="pill"><span class="pulse" aria-hidden="true"></span>{t.pill}</p>
+        <p class="eyebrow-name">{profile.name} · {profile.headline[lang]}</p>
+        <h1>{t.h1Pre} <span class="grad">{t.h1Accent}</span></h1>
+        <p class="lead">{profile.intro[lang]}</p>
+        <div class="actions">
+          <a class="btn primary" href="#projects">{t.viewProjects} <Icon name="arrow-up-right" size={16} /></a>
+          <a class="btn" href="#contact">{t.contactMe}</a>
+          <ul class="socials" aria-label="Social">
+            <li><a href={profile.github} rel="noopener me" target="_blank" aria-label="GitHub"><Icon name="github" size={20} /></a></li>
+            {profile.linkedin && <li><a href={profile.linkedin} rel="noopener me" target="_blank" aria-label="LinkedIn"><Icon name="linkedin" size={20} /></a></li>}
+            {profile.email && <li><a href={`mailto:${profile.email}`} aria-label={t.email}><Icon name="mail" size={20} /></a></li>}
+          </ul>
+        </div>
+      </div>
+
+      <figure class="terminal" aria-label={t.terminalTitle}>
+        <div class="term-bar">
+          <span></span><span></span><span></span>
+          <b>{t.terminalTitle}</b>
+        </div>
+        <pre class="term-body" aria-hidden="true"><code><span class="c-dim">~/allatyou-app</span> <span class="c-acc">main</span>
+<span class="c-prompt">$</span> gh issue create <span class="c-str">"Agenda: jump to now"</span>
+<span class="c-ok">✓</span> <span class="c-dim">issue #53 · spec 0028-agenda-now</span>
+<span class="c-prompt">$</span> git checkout -b <span class="c-str">0028-agenda-now</span>
+<span class="c-prompt">$</span> git commit -m <span class="c-str">"feat(agenda): jump to now"</span>
+<span class="c-prompt">$</span> gh pr create --body <span class="c-str">"Closes #53"</span>
+<span class="c-ok">✓</span> lint  <span class="c-ok">✓</span> typecheck  <span class="c-ok">✓</span> test  <span class="c-ok">✓</span> build
+<span class="c-ok">✓</span> e2e <span class="c-dim">·</span> <span class="c-acc">merged to main</span><span class="caret"></span></code></pre>
+        <figcaption>{t.terminalCaption}</figcaption>
+      </figure>
+    </div>
+
+    <div class="wrap">
+      <dl class="stats" aria-label={t.statsLabel}>
+        {
+          profile.stats.map((s) => (
+            <div class="stat">
+              <dt>{s.label[lang]}</dt>
+              <dd>{s.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
   </section>
 
   <section id="about" class="wrap section">
-    <h2>{t.aboutTitle}</h2>
-    {profile.about[lang].map((p) => <p class="prose">{p}</p>)}
-    <h3>{t.workflowTitle}</h3>
-    <ol class="flow">
-      {profile.workflow[lang].map((step) => <li>{step}</li>)}
-    </ol>
+    <p class="eyebrow reveal">{t.aboutEyebrow}</p>
+    <h2 class="reveal">{t.aboutTitle}</h2>
+    <div class="about-grid">
+      <div class="reveal">
+        {profile.about[lang].map((p) => <p class="prose">{p}</p>)}
+      </div>
+      <div class="reveal">
+        <h3 class="mini">{t.workflowTitle}</h3>
+        <ol class="steps">
+          {
+            profile.workflow.map((s, i) => (
+              <li>
+                <span class="step-n">{i + 1}</span>
+                <div>
+                  <strong>{s.title[lang]}</strong>
+                  <span>{s.text[lang]}</span>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
   </section>
 
   <section id="projects" class="wrap section">
-    <h2>{t.projectsTitle}</h2>
-    <p class="prose muted">{t.projectsLead}</p>
+    <p class="eyebrow reveal">{t.projectsEyebrow}</p>
+    <h2 class="reveal">{t.projectsTitle}</h2>
+    <p class="prose muted reveal">{t.projectsLead}</p>
 
-    <h3>{t.featured}</h3>
+    <h3 class="mini">{t.featured}</h3>
     <div class="grid">
-      {
-        featured.map((p) => (
-          <article class="card">
-            <div class="card-top">
-              <h4>{p.name}</h4>
-              <span class={`badge ${p.visibility}`}>
-                {p.visibility === 'private' ? t.privateBadge : t.publicBadge}
-              </span>
-            </div>
-            <p class="tagline">{p.tagline[lang]}</p>
-            <p>{p.description[lang]}</p>
-            {p.highlights[lang].length > 0 && (
-              <ul class="highlights">
-                {p.highlights[lang].map((h) => (
-                  <li>{h}</li>
-                ))}
-              </ul>
-            )}
-            <ul class="chips" aria-label="Stack">
-              {p.stack.map((s) => (
-                <li>{s}</li>
-              ))}
-            </ul>
-            <div class="links">
-              {p.live && (
-                <a href={p.live} rel="noopener" target="_blank">
-                  {t.demo} ↗
-                </a>
-              )}
-              {p.visibility === 'public' && p.repo && (
-                <a href={p.repo} rel="noopener" target="_blank">
-                  {t.code} ↗
-                </a>
-              )}
-            </div>
-          </article>
-        ))
-      }
+      {featured.map((p, i) => <ProjectCard project={p} lang={lang} index={i + 1} />)}
     </div>
 
-    <h3>{t.others}</h3>
-    <div class="grid compact">
-      {
-        others.map((p) => (
-          <article class="card">
-            <div class="card-top">
-              <h4>{p.name}</h4>
-              <span class={`badge ${p.visibility}`}>
-                {p.visibility === 'private' ? t.privateBadge : t.publicBadge}
-              </span>
-            </div>
-            <p class="tagline">{p.tagline[lang]}</p>
-            <p>{p.description[lang]}</p>
-            <ul class="chips" aria-label="Stack">
-              {p.stack.map((s) => (
-                <li>{s}</li>
-              ))}
-            </ul>
-            <div class="links">
-              {p.live && (
-                <a href={p.live} rel="noopener" target="_blank">
-                  {t.demo} ↗
-                </a>
-              )}
-              {p.visibility === 'public' && p.repo && (
-                <a href={p.repo} rel="noopener" target="_blank">
-                  {t.code} ↗
-                </a>
-              )}
-            </div>
-          </article>
-        ))
-      }
+    <h3 class="mini">{t.others}</h3>
+    <div class="grid">
+      {others.map((p, i) => <ProjectCard project={p} lang={lang} index={featured.length + i + 1} compact />)}
     </div>
   </section>
 
   <section id="skills" class="wrap section">
-    <h2>{t.skillsTitle}</h2>
-    <dl class="skills">
+    <p class="eyebrow reveal">{t.skillsEyebrow}</p>
+    <h2 class="reveal">{t.skillsTitle}</h2>
+    <div class="skills">
       {
         profile.skills.map((g) => (
-          <div>
-            <dt>{g.group[lang]}</dt>
-            <dd>
-              <ul class="chips">
-                {g.items.map((i) => (
-                  <li>{i}</li>
-                ))}
-              </ul>
-            </dd>
+          <div class="skill reveal">
+            <h3>{g.group[lang]}</h3>
+            <ul class="chips">
+              {g.items.map((i) => <li>{i}</li>)}
+            </ul>
           </div>
         ))
       }
-    </dl>
+    </div>
   </section>
 
   <section id="contact" class="wrap section">
-    <h2>{t.contactTitle}</h2>
-    <p class="prose">{t.contactLead}</p>
-    <ul class="contact">
-      <li><a href={profile.github} rel="noopener me" target="_blank">GitHub ↗</a></li>
-      {profile.linkedin && <li><a href={profile.linkedin} rel="noopener me" target="_blank">LinkedIn ↗</a></li>}
-      {profile.email && <li><a href={`mailto:${profile.email}`}>{t.email}: {profile.email}</a></li>}
-    </ul>
+    <div class="cta reveal">
+      <p class="eyebrow">{t.contactEyebrow}</p>
+      <h2>{t.contactTitle}</h2>
+      <p class="prose">{t.contactLead}</p>
+      <div class="actions">
+        {profile.email && <a class="btn primary" href={`mailto:${profile.email}`}><Icon name="mail" size={16} /> {profile.email}</a>}
+        {profile.linkedin && <a class="btn" href={profile.linkedin} rel="noopener me" target="_blank"><Icon name="linkedin" size={16} /> LinkedIn</a>}
+        <a class="btn" href={profile.github} rel="noopener me" target="_blank"><Icon name="github" size={16} /> GitHub</a>
+      </div>
+    </div>
   </section>
 </main>
 
 <footer class="site-footer">
-  <div class="wrap">
-    <p>© {year} {profile.name}. {t.footer}</p>
+  <div class="wrap foot">
+    <p>© {year} {profile.name}</p>
+    <p>{t.footer}</p>
   </div>
 </footer>

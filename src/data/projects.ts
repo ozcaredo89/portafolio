@@ -8,6 +8,9 @@ interface BaseProject {
   id: string;
   name: string;
   featured: boolean;
+  /** Decorative colour (glow, visual). Never used for text. */
+  accent: string;
+  motif: 'chart' | 'list' | 'feed' | 'grid' | 'rings' | 'map' | 'terminal';
   tagline: Localized;
   description: Localized;
   highlights: LocalizedList;
@@ -25,6 +28,8 @@ export type Project = BaseProject &
 export const projects: Project[] = [
   {
     id: 'renting-hub',
+    accent: '#10b981',
+    motif: 'chart',
     name: 'AllAtYou Renting Hub',
     featured: true,
     visibility: 'public',
@@ -53,6 +58,8 @@ export const projects: Project[] = [
   },
   {
     id: 'taller',
+    accent: '#f59e0b',
+    motif: 'list',
     name: 'AllAtYou Taller',
     featured: true,
     visibility: 'public',
@@ -82,6 +89,8 @@ export const projects: Project[] = [
   },
   {
     id: 'app',
+    accent: '#8b5cf6',
+    motif: 'rings',
     name: 'allatyou',
     featured: true,
     visibility: 'private',
@@ -109,6 +118,8 @@ export const projects: Project[] = [
   },
   {
     id: 'deseos',
+    accent: '#ec4899',
+    motif: 'feed',
     name: 'AllAtYou Deseos',
     featured: true,
     visibility: 'private',
@@ -137,6 +148,8 @@ export const projects: Project[] = [
   },
   {
     id: 'santaelena',
+    accent: '#f97316',
+    motif: 'map',
     name: 'AllAtYou Santa Elena',
     featured: false,
     visibility: 'private',
@@ -153,6 +166,8 @@ export const projects: Project[] = [
   },
   {
     id: 'booking',
+    accent: '#0ea5e9',
+    motif: 'grid',
     name: 'AllAtYou Booking',
     featured: false,
     visibility: 'public',
@@ -171,6 +186,8 @@ export const projects: Project[] = [
   },
   {
     id: 'raffle',
+    accent: '#eab308',
+    motif: 'grid',
     name: 'AllAtYou Raffle',
     featured: false,
     visibility: 'public',
@@ -188,6 +205,8 @@ export const projects: Project[] = [
   },
   {
     id: 'antivirus',
+    accent: '#14b8a6',
+    motif: 'terminal',
     name: 'antivirus-local',
     featured: false,
     visibility: 'private',
