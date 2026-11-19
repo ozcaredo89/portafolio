@@ -24,6 +24,7 @@ No backend, no secrets, no analytics that need consent banners.
 ## Content rules
 - Projects are data, not markup: edit `src/data/projects.ts`; both languages live side by side in each entry.
 - **Never** link to private repositories or expose their code, secrets, customer names or internal URLs. Private projects are shown as case studies with only public demo links.
+- Each project needs an `accent` and a `motif` (decorative art in `ProjectVisual.astro`); accents are never used for text.
 - Do not invent metrics. Only claims that can be verified from the repos (commit counts, stack, live URLs).
 
 ## Map (where things are)
@@ -33,8 +34,11 @@ No backend, no secrets, no analytics that need consent banners.
 | Textos de la interfaz (ES/EN) | `src/i18n/ui.ts` |
 | Perfil, enlaces de contacto | `src/data/profile.ts` |
 | Páginas | `src/pages/index.astro` (ES), `src/pages/en/index.astro` (EN) |
-| Layout y secciones | `src/layouts/`, `src/components/` |
-| Estilos globales / tokens | `src/styles/global.css` |
+| Layout, tema y SEO (JSON-LD, og) | `src/layouts/Base.astro` |
+| Secciones de la home | `src/components/Home.astro` |
+| Tarjeta, arte e iconos de proyecto | `src/components/ProjectCard.astro`, `ProjectVisual.astro`, `Icon.astro` |
+| Imagen para compartir (og.png) | `scripts/og.html` → `npm run og` → `public/og.png` |
+| Estilos globales / tokens (claro y oscuro) | `src/styles/global.css` |
 | Dominio personalizado | `public/CNAME` |
 | CI y despliegue | `.github/workflows/ci.yml`, `.github/workflows/deploy.yml` |
 | Specs | `docs/specs/` |
