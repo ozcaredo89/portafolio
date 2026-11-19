@@ -1,27 +1,45 @@
 ---
+import '@fontsource-variable/geist';
+import '@fontsource-variable/geist-mono';
 import '../styles/global.css';
 import { ui, type Lang } from '../i18n/ui';
+import { profile } from '../data/profile';
 
 interface Props {
   lang: Lang;
   /** Path of this page in the other language, for hreflang. Omit on 404. */
   alternates?: { es: string; en: string };
+  noindex?: boolean;
 }
 
-const { lang, alternates } = Astro.props;
+const { lang, alternates, noindex = false } = Astro.props;
 const t = ui[lang];
 const site = Astro.site ?? new URL('https://portafolio.allatyou.com');
 const canonical = new URL(Astro.url.pathname, site);
+const ogImage = new URL('/og.png', site).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  url: site.href,
+  jobTitle: profile.headline[lang],
+  description: t.siteDescription,
+  sameAs: [profile.github, profile.linkedin].filter(Boolean),
+  knowsAbout: ['TypeScript', 'React', 'Next.js', 'Node.js', 'PostgreSQL', 'AWS'],
+};
 ---
 
 <!doctype html>
-<html lang={t.htmlLang}>
+<html lang={t.htmlLang} data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{t.siteTitle}</title>
     <meta name="description" content={t.siteDescription} />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#07080c" />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical.href} />
     {
@@ -34,12 +52,71 @@ const canonical = new URL(Astro.url.pathname, site);
       )
     }
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={profile.shortName} />
     <meta property="og:title" content={t.siteTitle} />
     <meta property="og:description" content={t.siteDescription} />
     <meta property="og:url" content={canonical.href} />
     <meta property="og:locale" content={lang === 'es' ? 'es_CO' : 'en_US'} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={t.siteTitle} />
+    <meta name="twitter:description" content={t.siteDescription} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <!-- Set the theme before first paint to avoid a flash. -->
+    <script is:inline>
+      (function () {
+        let t = null;
+        try {
+          t = localStorage.getItem('theme');
+        } catch {
+          /* storage blocked: fall back to the OS preference */
+        }
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+        document.documentElement.classList.add('js');
+      })();
+    </script>
   </head>
   <body>
+    <a class="skip" href="#main">{t.skip}</a>
     <slot />
+    <script>
+      const root = document.documentElement;
+
+      document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+          root.setAttribute('data-theme', next);
+          try {
+            localStorage.setItem('theme', next);
+          } catch {
+            /* storage can be blocked; the toggle still works for this visit */
+          }
+        });
+      });
+
+      const items = document.querySelectorAll<HTMLElement>('.reveal');
+      if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        items.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('in');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+        );
+        items.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>
