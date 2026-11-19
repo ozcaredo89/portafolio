@@ -10,12 +10,12 @@ export const profile = {
   /** Stated by the owner. */
   years: 13,
   headline: {
-    es: 'Ingeniero de software full-stack · Colombia',
-    en: 'Full-stack software engineer · Colombia',
+    es: 'Senior Software Engineer · DevOps & Cloud · Cali, Colombia',
+    en: 'Senior Software Engineer · DevOps & Cloud · Cali, Colombia',
   } satisfies Localized,
   intro: {
-    es: 'Más de 13 años diseñando, construyendo y operando productos web: del modelo de datos y la API hasta una PWA que se instala en el teléfono. Hoy lo hago con IA como copiloto, specs claras y CI en verde.',
-    en: '13+ years designing, building and operating web products: from the data model and API to a PWA you can install on your phone. Today I do it with AI as a copilot, clear specs and green CI.',
+    es: 'Más de 13 años diseñando, automatizando y operando plataformas escalables y seguras: infraestructura como código, pipelines CI/CD, pruebas automatizadas y productos web propios de punta a punta. Hoy lo hago con IA como copiloto, specs claras y CI en verde.',
+    en: '13+ years designing, automating and operating scalable, secure platforms: infrastructure as code, CI/CD pipelines, automated testing and in-house web products end to end. Today I do it with AI as a copilot, clear specs and green CI.',
   } satisfies Localized,
   /** Every number must be traceable to the repos or the brain catalog (AGENTS.md). */
   stats: [
@@ -25,10 +25,12 @@ export const profile = {
   ] as { value: string; label: Localized }[],
   about: {
     es: [
+      'Soy Senior Software Engineer con enfoque en DevOps y cloud. He trabajado en plataformas empresariales y SaaS, incluidos entornos regulados, con foco en confiabilidad, optimización de costos, observabilidad y mejora continua.',
       'Soy el creador del ecosistema AllAtYou: una familia de productos para operación de flotas, talleres, reservas y comunidades, cada uno desplegado de forma independiente.',
       'Mi forma de trabajar es «spec primero»: cada cambio parte de un issue y una especificación con alcance explícito, avanza en una rama con commits convencionales y se fusiona solo con CI en verde. Eso mantiene el ritmo alto sin perder trazabilidad, también cuando trabajo con asistentes de IA.',
     ],
     en: [
+      'I am a Senior Software Engineer focused on DevOps and cloud. I have worked on enterprise and SaaS platforms, including regulated environments, with a focus on reliability, cost optimisation, observability and continuous improvement.',
       'I created the AllAtYou ecosystem: a family of products for fleet operations, workshops, bookings and communities, each deployed independently.',
       'I work spec-first: every change starts from an issue and a spec with explicit scope, moves forward on a branch with conventional commits and merges only with green CI. That keeps the pace high without losing traceability, including when I work with AI assistants.',
     ],
@@ -56,10 +58,11 @@ export const profile = {
     },
   ] as { title: Localized; text: Localized }[],
   skills: [
-    { group: { es: 'Lenguajes', en: 'Languages' }, items: ['TypeScript', 'JavaScript', 'Python', 'SQL'] },
-    { group: { es: 'Frontend', en: 'Frontend' }, items: ['React', 'Next.js', 'Vite', 'Tailwind CSS', 'PWA', 'Astro'] },
-    { group: { es: 'Backend y datos', en: 'Backend & data' }, items: ['Node.js', 'Express', 'Supabase / PostgreSQL', 'Firebase', 'SQLite', 'Prisma'] },
-    { group: { es: 'Infraestructura', en: 'Infrastructure' }, items: ['Docker', 'AWS (Lambda, CloudFront, ECS)', 'Railway', 'Vercel', 'GitHub Actions'] },
-    { group: { es: 'Calidad', en: 'Quality' }, items: ['Vitest', 'Playwright', 'ESLint', 'Conventional Commits'] },
+    { group: { es: 'Nube y DevOps', en: 'Cloud & DevOps' }, items: ['AWS', 'Azure', 'Terraform', 'Docker', 'Kubernetes', 'CI/CD', 'GitHub Actions', 'Azure DevOps', 'Linux', 'Serverless'] },
+    { group: { es: 'Observabilidad', en: 'Observability' }, items: ['Datadog', 'Grafana', 'Zabbix', 'Graylog'] },
+    { group: { es: 'Pruebas y calidad', en: 'Testing & quality' }, items: ['Karate', 'Playwright', 'Vitest', 'Postman / SoapUI', 'TestRail', 'TDD', 'ISTQB CTFL', 'ESLint'] },
+    { group: { es: 'Lenguajes', en: 'Languages' }, items: ['TypeScript', 'JavaScript', 'Python', 'PHP', 'Java', 'C#/.NET', 'SQL', 'Bash'] },
+    { group: { es: 'Frontend y backend', en: 'Frontend & backend' }, items: ['React', 'Next.js', 'Angular', 'Vite', 'Tailwind CSS', 'PWA', 'Node.js', 'Express'] },
+    { group: { es: 'Datos', en: 'Data' }, items: ['PostgreSQL / Supabase', 'Oracle', 'SQL Server', 'MySQL', 'MongoDB', 'Firebase', 'SQLite', 'Prisma'] },
   ] as { group: Localized; items: string[] }[],
 };
