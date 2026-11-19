@@ -1,12 +1,11 @@
 import type { Localized, LocalizedList } from './projects';
 
-// TODO(owner): confirm headline/bio wording and fill `linkedin` and `email`.
 // Empty values are simply not rendered, so nothing personal is published by accident.
 export const profile = {
   name: 'Oscar Eduardo Hincapié Vargas',
   github: 'https://github.com/ozcaredo89',
-  linkedin: '',
-  email: '',
+  linkedin: 'https://www.linkedin.com/in/ing-oscar-eduardo-hincapie/',
+  email: 'oscar.hv89@gmail.com',
   headline: {
     es: 'Desarrollador full-stack en Colombia',
     en: 'Full-stack developer in Colombia',
