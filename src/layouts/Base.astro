@@ -26,7 +26,8 @@ const jsonLd = {
   jobTitle: profile.headline[lang],
   description: t.siteDescription,
   sameAs: [profile.github, profile.linkedin].filter(Boolean),
-  knowsAbout: ['TypeScript', 'React', 'Next.js', 'Node.js', 'PostgreSQL', 'AWS'],
+  address: { '@type': 'PostalAddress', addressLocality: 'Cali', addressCountry: 'CO' },
+  knowsAbout: ['AWS', 'Azure', 'Terraform', 'CI/CD', 'Docker', 'Kubernetes', 'Test automation', 'TypeScript', 'React', 'Node.js'],
 };
 ---
 
