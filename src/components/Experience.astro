@@ -1,0 +1,147 @@
+---
+import { experience, earlier, education, type Role } from '../data/experience';
+import { ui, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+
+const fmt = new Intl.DateTimeFormat(lang === 'es' ? 'es-CO' : 'en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+const month = (ym: string) => {
+  const [y, m] = ym.split('-').map(Number);
+  return fmt.format(new Date(Date.UTC(y, m - 1, 1))).replace('.', '').replace(' de ', ' ');
+};
+const period = (r: Role) => `${month(r.from)} — ${r.to ? month(r.to) : t.present}`;
+const sorted = [...experience].sort((a, b) => b.from.localeCompare(a.from));
+---
+
+<ol class="timeline">
+  {
+    sorted.map((r) => (
+      <li class="role reveal">
+        <span class:list={['node', { live: r.to === null }]} aria-hidden="true"></span>
+        <div class="role-card">
+          <p class="when">{period(r)}</p>
+          <h3>{r.role[lang]}</h3>
+          <p class="org">
+            {r.company}
+            {r.via && <span class="via"> · {r.via}</span>}
+          </p>
+          {r.focus && <p class="focus">{r.focus[lang]}</p>}
+          <ul class="points">
+            {r.highlights[lang].map((h) => <li>{h}</li>)}
+          </ul>
+          <ul class="chips" aria-label="Stack">
+            {r.stack.map((s) => <li>{s}</li>)}
+          </ul>
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<details class="earlier reveal">
+  <summary>{t.earlier}</summary>
+  <ol class="timeline compact">
+    {
+      earlier.map((r) => (
+        <li class="role">
+          <span class="node" aria-hidden="true" />
+          <div class="role-card">
+            <p class="when">{period(r)}</p>
+            <h3>{r.role[lang]}</h3>
+            <p class="org">{r.company}</p>
+            <ul class="points">
+              {r.highlights[lang].map((h) => <li>{h}</li>)}
+            </ul>
+            <ul class="chips" aria-label="Stack">
+              {r.stack.map((s) => <li>{s}</li>)}
+            </ul>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</details>
+
+<div class="edu reveal">
+  <div class="skill">
+    <h3>{t.eduTitle}</h3>
+    <ul class="plain">
+      {
+        education.degrees.map((d) => (
+          <li>
+            <strong>{d.title[lang]}</strong>
+            <span>{[d.place, d.years].filter(Boolean).join(' · ')}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <h3 class="sub">{t.langsTitle}</h3>
+    <ul class="plain">
+      {
+        education.languages.map((l) => (
+          <li>
+            <strong>{l.name[lang]}</strong>
+            <span>{l.level[lang]}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <div class="skill">
+    <h3>{t.certsTitle}</h3>
+    <ul class="chips">
+      {education.certifications.map((c) => <li>{c}</li>)}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .timeline { list-style: none; margin: 2.2rem 0 0; padding: 0; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 0.45rem; top: 0.6rem; bottom: 0.6rem; width: 1px; background: var(--border-strong); }
+  .role { position: relative; padding: 0 0 1.4rem 2.2rem; }
+  .node {
+    position: absolute; left: 0; top: 1.6rem; width: 0.95rem; height: 0.95rem; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--border-strong);
+  }
+  .node.live { border-color: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 20%, transparent); }
+  .role-card { padding: 1.3rem 1.4rem 1.4rem; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); transition: border-color 0.2s; }
+  .role-card:hover { border-color: var(--border-strong); }
+  .when { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; font-family: var(--mono); font-size: 0.78rem; color: var(--muted); letter-spacing: 0.02em; }
+  h3 { margin: 0.5rem 0 0; font-size: 1.2rem; letter-spacing: -0.02em; line-height: 1.25; }
+  .org { margin-top: 0.15rem; font-weight: 600; }
+  .via { color: var(--muted); font-weight: 500; }
+  .focus { margin-top: 0.5rem; color: var(--muted); font-size: 0.93rem; }
+  .points { margin: 0.9rem 0 0; padding-left: 1.1rem; display: grid; gap: 0.45rem; color: var(--muted); font-size: 0.93rem; }
+  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0 0; padding: 0; }
+  .chips li {
+    font-family: var(--mono); font-size: 0.74rem; padding: 0.2rem 0.55rem; border-radius: 8px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--muted);
+  }
+  .timeline.compact { margin-top: 1.2rem; }
+
+  .earlier { margin-top: 0.4rem; }
+  .earlier summary {
+    display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; list-style: none;
+    padding: 0.6rem 1.1rem; border: 1px solid var(--border-strong); border-radius: 999px; font-weight: 600; font-size: 0.92rem;
+  }
+  .earlier summary::-webkit-details-marker { display: none; }
+  .earlier summary::after { content: '+'; font-family: var(--mono); color: var(--accent); }
+  .earlier[open] summary::after { content: '−'; }
+  .earlier summary:hover { background: var(--surface-2); }
+
+  .edu { display: grid; gap: 1rem; margin-top: 2.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 800px) { .edu { grid-template-columns: 1fr 1fr; } }
+  .skill { padding: 1.4rem; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); }
+  .skill h3 { margin: 0 0 0.9rem; font-size: 1rem; }
+  .skill h3.sub { margin-top: 1.4rem; }
+  .plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .plain li strong { display: block; font-weight: 600; line-height: 1.3; }
+  .plain li span { color: var(--muted); font-size: 0.9rem; }
+  .skill .chips { margin-top: 0; }
+  .skill .chips li { color: var(--text); }
+</style>

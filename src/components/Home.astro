@@ -4,6 +4,7 @@ import { profile } from '../data/profile';
 import { projects } from '../data/projects';
 import Icon from './Icon.astro';
 import ProjectCard from './ProjectCard.astro';
+import Experience from './Experience.astro';
 
 interface Props {
   lang: Lang;
@@ -26,6 +27,7 @@ const year = new Date().getFullYear();
     </a>
     <nav aria-label={t.navLabel}>
       <a href="#about">{t.nav.about}</a>
+      <a href="#experience">{t.nav.experience}</a>
       <a href="#projects">{t.nav.projects}</a>
       <a href="#skills">{t.nav.skills}</a>
       <a href="#contact">{t.nav.contact}</a>
@@ -114,6 +116,13 @@ const year = new Date().getFullYear();
         </ol>
       </div>
     </div>
+  </section>
+
+  <section id="experience" class="wrap section">
+    <p class="eyebrow reveal">{t.expEyebrow}</p>
+    <h2 class="reveal">{t.expTitle}</h2>
+    <p class="prose muted reveal">{t.expLead}</p>
+    <Experience lang={lang} />
   </section>
 
   <section id="projects" class="wrap section">
