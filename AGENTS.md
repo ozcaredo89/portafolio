@@ -24,7 +24,7 @@ No backend, no secrets, no analytics that need consent banners.
 ## Content rules
 - Projects are data, not markup: edit `src/data/projects.ts`; both languages live side by side in each entry.
 - **Never** link to private repositories or expose their code, secrets, customer names or internal URLs. Private projects are shown as case studies with only public demo links.
-- Each project needs an `accent` and a `motif` (decorative art in `ProjectVisual.astro`); accents are never used for text.
+- Each project needs a `logo` in `public/logos/` (`official: true` only for the project's own brand; never a client's logo or a third-party brand) plus an `accent` and a `motif` (decorative art in `ProjectVisual.astro`); accents are never used for text.
 - Experience comes from the owner's CV (`src/data/experience.ts`). Employers are published; **end-client names and the phone number are not**.
 - Do not invent metrics. Only claims that can be verified from the repos (commit counts, stack, live URLs).
 
@@ -39,6 +39,7 @@ No backend, no secrets, no analytics that need consent banners.
 | Layout, tema y SEO (JSON-LD, og) | `src/layouts/Base.astro` |
 | Secciones de la home | `src/components/Home.astro` |
 | Tarjeta, arte e iconos de proyecto | `src/components/ProjectCard.astro`, `ProjectVisual.astro`, `Icon.astro` |
+| Logos de proyectos | `public/logos/` (procedencia en `docs/specs/0005-project-logos.md`) |
 | Imagen para compartir (og.png) | `scripts/og.html` → `npm run og` → `public/og.png` |
 | Estilos globales / tokens (claro y oscuro) | `src/styles/global.css` |
 | Dominio personalizado | `public/CNAME` |

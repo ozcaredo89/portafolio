@@ -18,7 +18,7 @@ const isPrivate = p.visibility === 'private';
 ---
 
 <article class:list={['card reveal', { compact }]} style={`--a:${p.accent}`}>
-  <ProjectVisual motif={p.motif} accent={p.accent} compact={compact} />
+  <ProjectVisual motif={p.motif} accent={p.accent} logo={p.logo.src} compact={compact} />
   <div class="body">
     <div class="meta">
       <span class="num">{String(index).padStart(2, '0')}</span>

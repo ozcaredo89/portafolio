@@ -10,6 +10,11 @@ interface BaseProject {
   featured: boolean;
   /** Decorative colour (glow, visual). Never used for text. */
   accent: string;
+  /**
+   * Project mark shown on the card. `official: false` means the project has no brand of its own
+   * and the mark is a neutral placeholder tile. Never use a client's logo here (AGENTS.md).
+   */
+  logo: { src: string; official: boolean };
   motif: 'chart' | 'list' | 'feed' | 'grid' | 'rings' | 'map' | 'terminal';
   tagline: Localized;
   description: Localized;
@@ -29,6 +34,7 @@ export const projects: Project[] = [
   {
     id: 'renting-hub',
     accent: '#10b981',
+    logo: { src: '/logos/renting-hub.svg', official: true },
     motif: 'chart',
     name: 'AllAtYou Renting Hub',
     featured: true,
@@ -58,7 +64,8 @@ export const projects: Project[] = [
   },
   {
     id: 'taller',
-    accent: '#f59e0b',
+    accent: '#4f46e5',
+    logo: { src: '/logos/taller.svg', official: true },
     motif: 'list',
     name: 'AllAtYou Taller',
     featured: true,
@@ -89,7 +96,8 @@ export const projects: Project[] = [
   },
   {
     id: 'app',
-    accent: '#8b5cf6',
+    accent: '#2f80ff',
+    logo: { src: '/logos/allatyou-app.svg', official: true },
     motif: 'rings',
     name: 'allatyou',
     featured: true,
@@ -119,6 +127,7 @@ export const projects: Project[] = [
   {
     id: 'deseos',
     accent: '#ec4899',
+    logo: { src: '/logos/deseos.png', official: true },
     motif: 'feed',
     name: 'AllAtYou Deseos',
     featured: true,
@@ -148,7 +157,8 @@ export const projects: Project[] = [
   },
   {
     id: 'santaelena',
-    accent: '#f97316',
+    accent: '#2e7d32',
+    logo: { src: '/logos/santaelena.png', official: true },
     motif: 'map',
     name: 'AllAtYou Santa Elena',
     featured: false,
@@ -167,6 +177,7 @@ export const projects: Project[] = [
   {
     id: 'booking',
     accent: '#0ea5e9',
+    logo: { src: '/logos/booking.svg', official: false },
     motif: 'grid',
     name: 'AllAtYou Booking',
     featured: false,
@@ -186,7 +197,8 @@ export const projects: Project[] = [
   },
   {
     id: 'raffle',
-    accent: '#eab308',
+    accent: '#d4a017',
+    logo: { src: '/logos/raffle.svg', official: false },
     motif: 'grid',
     name: 'AllAtYou Raffle',
     featured: false,
@@ -206,6 +218,7 @@ export const projects: Project[] = [
   {
     id: 'antivirus',
     accent: '#14b8a6',
+    logo: { src: '/logos/antivirus-local.svg', official: false },
     motif: 'terminal',
     name: 'antivirus-local',
     featured: false,
