@@ -49,12 +49,12 @@ const isPrivate = p.visibility === 'private';
       (p.live || (p.visibility === 'public' && p.repo)) && (
         <div class="links">
           {p.live && (
-            <a href={p.live} rel="noopener" target="_blank">
+            <a href={p.live} data-track={`project:${p.id}:live`} rel="noopener" target="_blank">
               {t.demo} <Icon name="arrow-up-right" size={15} />
             </a>
           )}
           {p.visibility === 'public' && p.repo && (
-            <a href={p.repo} rel="noopener" target="_blank">
+            <a href={p.repo} data-track={`project:${p.id}:code`} rel="noopener" target="_blank">
               <Icon name="github" size={15} /> {t.code}
             </a>
           )}

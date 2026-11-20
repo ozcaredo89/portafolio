@@ -1,7 +1,7 @@
 ---
 // Tiny inline icon set (stroke icons follow Lucide's geometry; brand icons are filled).
 interface Props {
-  name: 'arrow-up-right' | 'mail' | 'sun' | 'moon' | 'lock' | 'code' | 'github' | 'linkedin' | 'check';
+  name: 'arrow-up-right' | 'mail' | 'sun' | 'moon' | 'lock' | 'code' | 'github' | 'linkedin' | 'check' | 'eye' | 'chart';
   size?: number;
 }
 const { name, size = 18 } = Astro.props;
@@ -23,6 +23,15 @@ const filled = name === 'github' || name === 'linkedin';
 >
   {name === 'arrow-up-right' && <path d="M7 17 17 7M8 7h9v9" />}
   {name === 'check' && <path d="m5 12 5 5 9-10" />}
+  {
+    name === 'eye' && (
+      <>
+        <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
+        <circle cx="12" cy="12" r="3" />
+      </>
+    )
+  }
+  {name === 'chart' && <path d="M3 3v18h18M7 15v-4M12 15V8M17 15v-7" />}
   {
     name === 'mail' && (
       <>
