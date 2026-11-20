@@ -16,7 +16,10 @@ const { lang, alternates, noindex = false } = Astro.props;
 const t = ui[lang];
 const site = Astro.site ?? new URL('https://portafolio.allatyou.com');
 const canonical = new URL(Astro.url.pathname, site);
-const ogImage = new URL('/og.png', site).href;
+// Bump OG_VERSION whenever public/og/*.jpg changes: scrapers (WhatsApp, LinkedIn) cache images per URL.
+const OG_VERSION = '2';
+const ogImage = `${new URL(`/og/${lang}.jpg`, site).href}?v=${OG_VERSION}`;
+const otherLang = lang === 'es' ? 'en' : 'es';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -42,6 +45,8 @@ const jsonLd = {
     <meta name="theme-color" content="#07080c" />
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="author" content={profile.name} />
     <link rel="canonical" href={canonical.href} />
     {
       alternates && (
@@ -58,13 +63,18 @@ const jsonLd = {
     <meta property="og:description" content={t.siteDescription} />
     <meta property="og:url" content={canonical.href} />
     <meta property="og:locale" content={lang === 'es' ? 'es_CO' : 'en_US'} />
+    <meta property="og:locale:alternate" content={otherLang === 'es' ? 'es_CO' : 'en_US'} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.ogAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={t.siteTitle} />
     <meta name="twitter:description" content={t.siteDescription} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={t.ogAlt} />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <!-- Set the theme before first paint to avoid a flash. -->
     <script is:inline>
