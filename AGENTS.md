@@ -26,6 +26,7 @@ No backend, no secrets, no analytics that need consent banners.
 - **Never** link to private repositories or expose their code, secrets, customer names or internal URLs. Private projects are shown as case studies with only public demo links.
 - Each project needs a `logo` in `public/logos/` (`official: true` only for the project's own brand; never a client's logo or a third-party brand) plus an `accent` and a `motif` (decorative art in `ProjectVisual.astro`); accents are never used for text.
 - Experience comes from the owner's CV (`src/data/experience.ts`). Employers are published; **end-client names and the phone number are not**.
+- Analytics must stay cookie-free and anonymous, respect Do Not Track, and keep `privacy.ts` truthful when the setup changes. Only public identifiers (`phc_…`, GoatCounter code) may be committed; never secret or personal API keys.
 - Do not invent metrics. Only claims that can be verified from the repos (commit counts, stack, live URLs).
 
 ## Map (where things are)
@@ -42,6 +43,7 @@ No backend, no secrets, no analytics that need consent banners.
 | Logos de proyectos | `public/logos/` (procedencia en `docs/specs/0005-project-logos.md`) |
 | Ilustraciones propias (Booking, Raffle, antivirus) | `scripts/illustrations.mjs` → `npm run logos` → `public/logos/*.svg` (spec 0006) |
 | Imágenes para compartir (ES/EN) y touch icon | `scripts/og.html` → `npm run og` → `public/og/{es,en}.jpg`, `public/apple-touch-icon.png`; subir `OG_VERSION` en `Base.astro` al cambiarlas (spec 0007) |
+| Analítica (claves públicas, cargador, privacidad) | `src/data/analytics.ts`, `src/scripts/analytics.ts`, `src/i18n/privacy.ts`, `src/components/PrivacyPage.astro` (spec 0008) |
 | Estilos globales / tokens (claro y oscuro) | `src/styles/global.css` |
 | Dominio personalizado | `public/CNAME` |
 | CI y despliegue | `.github/workflows/ci.yml`, `.github/workflows/deploy.yml` |
