@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import { privacy } from '../i18n/privacy';
+import { profile } from '../data/profile';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const p = privacy[lang];
+const home = lang === 'es' ? '/' : '/en/';
+const alternates = { es: '/privacidad/', en: '/en/privacy/' };
+---
+
+<Base lang={lang} alternates={alternates} title={p.metaTitle}>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href={home}>
+        <span class="mark">OH</span>
+        <span class="brand-name">{profile.shortName}</span>
+      </a>
+      <div class="tools">
+        <a class="pill-btn" href={lang === 'es' ? alternates.en : alternates.es} hreflang={lang === 'es' ? 'en' : 'es'}>{lang === 'es' ? 'EN' : 'ES'}</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap section legal">
+    <p class="eyebrow"><a href={home}>← {p.back}</a></p>
+    <h1>{p.title}</h1>
+    <p class="prose lead">{p.intro}</p>
+    {
+      p.blocks.map((b) => (
+        <section>
+          <h2>{b.heading}</h2>
+          <ul>
+            {b.items.map((i) => <li>{i}</li>)}
+          </ul>
+        </section>
+      ))
+    }
+    <p class="prose">
+      {p.contact} <a href={`mailto:${profile.email}`}>{profile.email}</a>.
+    </p>
+    <p class="prose muted small">{p.updated}</p>
+  </main>
+</Base>
+
+<style>
+  .legal { max-width: 46rem; padding-bottom: 4rem; }
+  .legal h1 { font-size: clamp(2rem, 5vw, 3rem); margin-top: 0.5rem; }
+  .legal .lead { font-size: 1.1rem; }
+  .legal h2 { margin: 2.2rem 0 0.8rem; font-size: 1.15rem; letter-spacing: -0.01em; max-width: none; }
+  .legal ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.6rem; color: var(--muted); }
+  .legal .eyebrow a { color: var(--accent); text-decoration: none; }
+  .legal .small { font-size: 0.85rem; }
+</style>

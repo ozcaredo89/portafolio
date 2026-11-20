@@ -4,6 +4,7 @@ import { profile } from '../data/profile';
 import { projects } from '../data/projects';
 import Icon from './Icon.astro';
 import ProjectCard from './ProjectCard.astro';
+import { analytics, goatcounterUrl } from '../data/analytics';
 import Experience from './Experience.astro';
 
 interface Props {
@@ -17,6 +18,8 @@ const featured = projects.filter((p) => p.featured);
 const others = projects.filter((p) => !p.featured);
 const home = lang === 'es' ? '/' : '/en/';
 const year = new Date().getFullYear();
+// Only mention measurement once something is actually measuring (keeps the notice truthful).
+const measuring = Boolean(analytics.goatcounter.code || analytics.posthog.key);
 ---
 
 <header class="site-header">
@@ -26,15 +29,31 @@ const year = new Date().getFullYear();
       <span class="brand-name">{profile.shortName}</span>
     </a>
     <nav aria-label={t.navLabel}>
-      <a href="#about">{t.nav.about}</a>
-      <a href="#experience">{t.nav.experience}</a>
-      <a href="#projects">{t.nav.projects}</a>
-      <a href="#skills">{t.nav.skills}</a>
-      <a href="#contact">{t.nav.contact}</a>
+      <a data-track="nav:about" href="#about">{t.nav.about}</a>
+      <a data-track="nav:experience" href="#experience">{t.nav.experience}</a>
+      <a data-track="nav:projects" href="#projects">{t.nav.projects}</a>
+      <a data-track="nav:skills" href="#skills">{t.nav.skills}</a>
+      <a data-track="nav:contact" href="#contact">{t.nav.contact}</a>
     </nav>
     <div class="tools">
-      <a class="pill-btn" href={t.switchHref} hreflang={lang === 'es' ? 'en' : 'es'} aria-label={t.switchAria}>{t.switchLabel}</a>
-      <button class="icon-btn" type="button" data-theme-toggle aria-label={t.themeToggle} title={t.themeToggle}>
+      {
+        analytics.goatcounter.code && (
+          <span class="visits" data-visit-counter hidden title={t.visitsTitle}>
+            <Icon name="eye" size={15} />
+            <b data-visit-count>0</b>
+            <span class="visits-label">{t.visits}</span>
+          </span>
+        )
+      }
+      {
+        analytics.goatcounter.code && analytics.goatcounter.publicStats && (
+          <a class="pill-btn analysis" href={goatcounterUrl} target="_blank" rel="noopener" title={t.analysisTitle} data-track="nav:analysis">
+            <Icon name="chart" size={15} /> <span>{t.analysis}</span>
+          </a>
+        )
+      }
+      <a class="pill-btn" data-track="nav:language" href={t.switchHref} hreflang={lang === 'es' ? 'en' : 'es'} aria-label={t.switchAria}>{t.switchLabel}</a>
+      <button class="icon-btn" type="button" data-track="nav:theme" data-theme-toggle aria-label={t.themeToggle} title={t.themeToggle}>
         <span class="to-light"><Icon name="sun" /></span>
         <span class="to-dark"><Icon name="moon" /></span>
       </button>
@@ -43,7 +62,7 @@ const year = new Date().getFullYear();
 </header>
 
 <main id="main">
-  <section class="hero">
+  <section id="top" class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <p class="pill"><span class="pulse" aria-hidden="true"></span>{t.pill}</p>
@@ -51,12 +70,12 @@ const year = new Date().getFullYear();
         <h1>{t.h1Pre} <span class="grad">{t.h1Accent}</span></h1>
         <p class="lead">{profile.intro[lang]}</p>
         <div class="actions">
-          <a class="btn primary" href="#projects">{t.viewProjects} <Icon name="arrow-up-right" size={16} /></a>
-          <a class="btn" href="#contact">{t.contactMe}</a>
+          <a class="btn primary" data-track="hero:projects" href="#projects">{t.viewProjects} <Icon name="arrow-up-right" size={16} /></a>
+          <a class="btn" data-track="hero:contact" href="#contact">{t.contactMe}</a>
           <ul class="socials" aria-label="Social">
-            <li><a href={profile.github} rel="noopener me" target="_blank" aria-label="GitHub"><Icon name="github" size={20} /></a></li>
-            {profile.linkedin && <li><a href={profile.linkedin} rel="noopener me" target="_blank" aria-label="LinkedIn"><Icon name="linkedin" size={20} /></a></li>}
-            {profile.email && <li><a href={`mailto:${profile.email}`} aria-label={t.email}><Icon name="mail" size={20} /></a></li>}
+            <li><a data-track="social:github" href={profile.github} rel="noopener me" target="_blank" aria-label="GitHub"><Icon name="github" size={20} /></a></li>
+            {profile.linkedin && <li><a data-track="social:linkedin" href={profile.linkedin} rel="noopener me" target="_blank" aria-label="LinkedIn"><Icon name="linkedin" size={20} /></a></li>}
+            {profile.email && <li><a data-track="social:email" href={`mailto:${profile.email}`} aria-label={t.email}><Icon name="mail" size={20} /></a></li>}
           </ul>
         </div>
       </div>
@@ -164,9 +183,9 @@ const year = new Date().getFullYear();
       <h2>{t.contactTitle}</h2>
       <p class="prose">{t.contactLead}</p>
       <div class="actions">
-        {profile.email && <a class="btn primary" href={`mailto:${profile.email}`}><Icon name="mail" size={16} /> {profile.email}</a>}
-        {profile.linkedin && <a class="btn" href={profile.linkedin} rel="noopener me" target="_blank"><Icon name="linkedin" size={16} /> LinkedIn</a>}
-        <a class="btn" href={profile.github} rel="noopener me" target="_blank"><Icon name="github" size={16} /> GitHub</a>
+        {profile.email && <a class="btn primary" data-track="contact:email" href={`mailto:${profile.email}`}><Icon name="mail" size={16} /> {profile.email}</a>}
+        {profile.linkedin && <a class="btn" data-track="contact:linkedin" href={profile.linkedin} rel="noopener me" target="_blank"><Icon name="linkedin" size={16} /> LinkedIn</a>}
+        <a class="btn" data-track="contact:github" href={profile.github} rel="noopener me" target="_blank"><Icon name="github" size={16} /> GitHub</a>
       </div>
     </div>
   </section>
@@ -175,6 +194,8 @@ const year = new Date().getFullYear();
 <footer class="site-footer">
   <div class="wrap foot">
     <p>© {year} {profile.name}</p>
-    <p>{t.footer}</p>
+    <p>
+      {measuring && <><span>{t.privacyNote}</span> <a href={t.privacyHref} data-track="footer:privacy">{t.privacyLink}</a> · </>}{t.footer}
+    </p>
   </div>
 </footer>

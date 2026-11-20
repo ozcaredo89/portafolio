@@ -107,6 +107,16 @@ p { margin: 0; }
   .site-header nav, .brand-name { display: none; }
 }
 
+.visits {
+  display: inline-flex; align-items: center; gap: 0.4rem; height: 2.3rem; padding-inline: 0.8rem;
+  border: 1px solid var(--border-strong); border-radius: 999px; color: var(--muted);
+  font-family: var(--mono); font-size: 0.78rem; white-space: nowrap;
+}
+.visits[hidden] { display: none; }
+.visits b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+.pill-btn.analysis { display: inline-flex; align-items: center; gap: 0.4rem; }
+@media (max-width: 720px) { .visits-label { display: none; } .pill-btn.analysis span { display: none; } }
+
 /* ───────── Hero ───────── */
 .hero { position: relative; overflow: hidden; padding-top: clamp(2.5rem, 7vw, 5.5rem); padding-bottom: 1rem; isolation: isolate; }
 .hero::before {
