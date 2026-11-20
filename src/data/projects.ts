@@ -197,7 +197,7 @@ export const projects: Project[] = [
   },
   {
     id: 'raffle',
-    accent: '#d4a017',
+    accent: '#8b5cf6',
     logo: { src: '/logos/raffle.svg', official: false },
     motif: 'grid',
     name: 'AllAtYou Raffle',
