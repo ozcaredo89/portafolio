@@ -6,7 +6,8 @@ export const ui = {
     htmlLang: 'es',
     siteTitle: 'Oscar Hincapié — Senior Software Engineer · DevOps & Cloud',
     siteDescription:
-      'Portafolio de Oscar Hincapié: más de 13 años en ingeniería de software, DevOps y cloud (AWS, Azure, Terraform, CI/CD) y productos web propios.',
+      '13+ años construyendo y operando software: AWS, Azure, Terraform, CI/CD y productos web propios. Mira mis proyectos.',
+    ogAlt: 'Oscar Hincapié, Senior Software Engineer · DevOps & Cloud, con los logos de sus proyectos.',
     nav: { about: 'Sobre mí', experience: 'Experiencia', projects: 'Proyectos', skills: 'Stack', contact: 'Contacto' },
     navLabel: 'Principal',
     switchLabel: 'EN',
@@ -56,7 +57,8 @@ export const ui = {
     htmlLang: 'en',
     siteTitle: 'Oscar Hincapié — Senior Software Engineer · DevOps & Cloud',
     siteDescription:
-      'Portfolio of Oscar Hincapié: 13+ years in software engineering, DevOps and cloud (AWS, Azure, Terraform, CI/CD) and in-house web products.',
+      '13+ years building and running software: AWS, Azure, Terraform, CI/CD and in-house web products. See my projects.',
+    ogAlt: 'Oscar Hincapié, Senior Software Engineer · DevOps & Cloud, with his project logos.',
     nav: { about: 'About', experience: 'Experience', projects: 'Projects', skills: 'Stack', contact: 'Contact' },
     navLabel: 'Main',
     switchLabel: 'ES',

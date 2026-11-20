@@ -1,5 +1,6 @@
 <!doctype html>
-<!-- Source of public/og.png (1200x630). Regenerate with: npm run og -->
+<!-- Source of the social share images and the touch icon. Render with: npm run og
+     ?lang=es|en  -> 1200x630 card      ?mode=icon -> 180x180 apple-touch-icon -->
 <html lang="es">
   <head>
     <meta charset="utf-8" />
@@ -15,52 +16,80 @@
         font-weight: 100 900;
       }
       * { box-sizing: border-box; margin: 0; }
-      html, body { width: 1200px; height: 630px; overflow: hidden; }
-      body {
-        font-family: 'Geist', system-ui, sans-serif;
-        color: #eceef4;
+      html, body { overflow: hidden; }
+      body { font-family: 'Geist', system-ui, sans-serif; color: #eceef4; }
+
+      /* ───── Card (1200x630). Centered on purpose: WhatsApp/Android crop a centred square. ───── */
+      body.card {
+        width: 1200px; height: 630px; position: relative;
         background:
-          radial-gradient(60% 70% at 15% 0%, rgba(139, 155, 255, 0.32), transparent 70%),
-          radial-gradient(45% 60% at 100% 10%, rgba(34, 211, 238, 0.22), transparent 70%),
+          radial-gradient(55% 70% at 12% 0%, rgba(139, 155, 255, 0.34), transparent 70%),
+          radial-gradient(45% 60% at 100% 6%, rgba(34, 211, 238, 0.24), transparent 70%),
+          radial-gradient(60% 50% at 50% 115%, rgba(99, 102, 241, 0.28), transparent 70%),
           #07080c;
-        position: relative;
       }
-      body::before {
-        content: '';
-        position: absolute; inset: 0;
+      body.card::before {
+        content: ''; position: absolute; inset: 0;
         background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
         background-size: 60px 60px;
-        -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, #000 20%, transparent 75%);
+        -webkit-mask-image: radial-gradient(ellipse 75% 85% at 50% 40%, #000 15%, transparent 75%);
       }
-      .wrap { position: relative; height: 100%; padding: 64px 72px; display: flex; flex-direction: column; justify-content: space-between; }
-      .top { display: flex; align-items: center; gap: 18px; }
-      .mark { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; font-weight: 800; font-size: 22px; color: #07080c; background: linear-gradient(135deg, #8b9bff, #22d3ee); }
-      .who b { display: block; font-size: 26px; font-weight: 650; letter-spacing: -0.01em; }
-      .who span { font-family: 'Geist Mono', monospace; font-size: 17px; color: #9aa3b6; }
-      h1 { font-size: 84px; line-height: 1.02; letter-spacing: -0.045em; font-weight: 650; max-width: 980px; }
-      h1 em { font-style: normal; background: linear-gradient(100deg, #8b9bff, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; }
-      .bottom { display: flex; align-items: flex-end; justify-content: space-between; }
-      .stats { display: flex; gap: 44px; }
-      .stats div b { display: block; font-size: 44px; font-weight: 650; letter-spacing: -0.04em; line-height: 1; }
-      .stats div span { font-size: 18px; color: #9aa3b6; }
-      .url { font-family: 'Geist Mono', monospace; font-size: 22px; color: #9aa3b6; padding: 10px 18px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; }
+      .stage { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 36px 60px; }
+      .pill { font-family: 'Geist Mono', monospace; font-size: 23px; color: #c3c9d8; padding: 10px 24px; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; background: rgba(255,255,255,.04); }
+      .name { margin-top: 26px; font-size: 106px; line-height: 1; font-weight: 700; letter-spacing: -0.05em; }
+      .pitch { margin-top: 22px; max-width: 860px; text-wrap: balance; font-size: 38px; line-height: 1.25; color: #aeb6c8; letter-spacing: -0.015em; }
+      .pitch em { font-style: normal; background: linear-gradient(100deg, #8b9bff, #22d3ee); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 600; }
+      .logos { margin-top: 38px; display: flex; gap: 16px; }
+      .logos img { width: 84px; height: 84px; border-radius: 22%; object-fit: cover; box-shadow: 0 14px 30px -10px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.14); }
+      .tags { margin-top: 28px; font-family: 'Geist Mono', monospace; font-size: 22px; color: #8d95a9; letter-spacing: 0.02em; }
+      .tags b { color: #eceef4; font-weight: 600; }
+
+      /* ───── Touch icon (180x180) ───── */
+      body.icon { width: 180px; height: 180px; }
+      .icon-tile { width: 180px; height: 180px; display: grid; place-items: center; background: linear-gradient(135deg, #8b9bff, #22d3ee); color: #07080c; font-weight: 800; font-size: 82px; letter-spacing: -0.02em; }
     </style>
   </head>
-  <body>
-    <div class="wrap">
-      <div class="top">
-        <div class="mark">OH</div>
-        <div class="who"><b>Oscar Hincapié</b><span>Senior Software Engineer · DevOps &amp; Cloud · Cali, Colombia</span></div>
+  <body class="card">
+    <div class="stage">
+      <div class="pill" id="pill"></div>
+      <div class="name">Oscar Hincapié</div>
+      <p class="pitch" id="pitch"></p>
+      <div class="logos">
+        <img src="../public/logos/allatyou-app.svg" alt="" />
+        <img src="../public/logos/renting-hub.svg" alt="" />
+        <img src="../public/logos/taller.svg" alt="" />
+        <img src="../public/logos/deseos.png" alt="" />
+        <img src="../public/logos/santaelena.png" alt="" />
+        <img src="../public/logos/booking.svg" alt="" />
+        <img src="../public/logos/raffle.svg" alt="" />
+        <img src="../public/logos/antivirus-local.svg" alt="" />
       </div>
-      <h1>Convierto ideas en productos web que <em>funcionan en producción.</em></h1>
-      <div class="bottom">
-        <div class="stats">
-          <div><b>13+</b><span>años de experiencia</span></div>
-          <div><b>12</b><span>proyectos AllAtYou</span></div>
-          <div><b>580+</b><span>commits en 3 productos</span></div>
-        </div>
-        <div class="url">portafolio.allatyou.com</div>
-      </div>
+      <p class="tags" id="tags"></p>
     </div>
+    <script>
+      const q = new URLSearchParams(location.search);
+      const copy = {
+        es: {
+          pill: 'Senior Software Engineer · DevOps & Cloud',
+          pitch: 'Convierto ideas en productos web que <em>funcionan en producción.</em>',
+          tags: '<b>13+ años</b> · AWS · Azure · Terraform · CI/CD',
+        },
+        en: {
+          pill: 'Senior Software Engineer · DevOps & Cloud',
+          pitch: 'I turn ideas into web products that <em>run in production.</em>',
+          tags: '<b>13+ years</b> · AWS · Azure · Terraform · CI/CD',
+        },
+      };
+      if (q.get('mode') === 'icon') {
+        document.body.className = 'icon';
+        document.body.innerHTML = '<div class="icon-tile">OH</div>';
+      } else {
+        const c = copy[q.get('lang') === 'en' ? 'en' : 'es'];
+        document.documentElement.lang = q.get('lang') === 'en' ? 'en' : 'es';
+        document.getElementById('pill').textContent = c.pill;
+        document.getElementById('pitch').innerHTML = c.pitch;
+        document.getElementById('tags').innerHTML = c.tags;
+      }
+    </script>
   </body>
 </html>

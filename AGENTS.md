@@ -41,7 +41,7 @@ No backend, no secrets, no analytics that need consent banners.
 | Tarjeta, arte e iconos de proyecto | `src/components/ProjectCard.astro`, `ProjectVisual.astro`, `Icon.astro` |
 | Logos de proyectos | `public/logos/` (procedencia en `docs/specs/0005-project-logos.md`) |
 | Ilustraciones propias (Booking, Raffle, antivirus) | `scripts/illustrations.mjs` → `npm run logos` → `public/logos/*.svg` (spec 0006) |
-| Imagen para compartir (og.png) | `scripts/og.html` → `npm run og` → `public/og.png` |
+| Imágenes para compartir (ES/EN) y touch icon | `scripts/og.html` → `npm run og` → `public/og/{es,en}.jpg`, `public/apple-touch-icon.png`; subir `OG_VERSION` en `Base.astro` al cambiarlas (spec 0007) |
 | Estilos globales / tokens (claro y oscuro) | `src/styles/global.css` |
 | Dominio personalizado | `public/CNAME` |
 | CI y despliegue | `.github/workflows/ci.yml`, `.github/workflows/deploy.yml` |
